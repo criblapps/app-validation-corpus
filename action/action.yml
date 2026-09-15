@@ -1,0 +1,76 @@
+name: 'App Validation Abuse Corpus'
+description: 'Generate the 19-check malicious app-bundle corpus and assert each is rejected (parity with cribl AppInstallValidator). For criblapps app repos.'
+inputs:
+  mode:
+    description: 'test target: "staging" uploads each fixture to packs-staging.cribl.io extapi and asserts rejection; "local" runs the dispensary AppValidator against the extracted bundle (needs the dispensary checkout)'
+    required: false
+    default: 'staging'
+  dispensary-base:
+    description: 'extapi base URL'
+    required: false
+    default: 'https://packs-staging.cribl.io'
+  app-id:
+    description: 'PACK_ID to upload under (the extapi path param)'
+    required: false
+    default: 'corpus-abuse'
+  packs-api-token:
+    description: 'staging dispensary PAT (Bearer). Required when mode=staging. Should come from a secret.'
+    required: false
+    default: ''
+  big-fixtures:
+    description: 'materialize the >100MB and >500MB fixtures (default false — harness synthesizes them at runtime)'
+    required: false
+    default: 'false'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout corpus repo
+      uses: actions/checkout@v4
+      with:
+        repository: criblapps/app-validation-corpus
+        path: corpus
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: corpus/package.json
+
+    - name: Install deps
+      shell: bash
+      working-directory: corpus
+      run: npm ci || npm install
+
+    - name: Generate fixtures
+      shell: bash
+      working-directory: corpus
+      run: node scripts/generate-fixtures.mjs --out fixtures ${{ inputs.big-fixtures == 'true' && '--big' || '' }}
+
+    - name: Run parity harness (staging)
+      if: inputs.mode == 'staging'
+      shell: bash
+      working-directory: corpus
+      env:
+        DISPENSARY_BASE: ${{ inputs.dispensary-base }}
+        APP_ID: ${{ inputs.app-id }}
+        PACKS_API_TOKEN: ${{ inputs.packs-api-token }}
+      run: node scripts/run-corpus.mjs --mode staging --manifest fixtures/manifest.json --out fixtures/results.json
+
+    - name: Run parity harness (local)
+      if: inputs.mode == 'local'
+      shell: bash
+      working-directory: corpus
+      run: node scripts/run-corpus.mjs --mode local --manifest fixtures/manifest.json --out fixtures/results.json
+
+    - name: Assert all fixtures got the expected verdict
+      shell: bash
+      working-directory: corpus
+      run: node scripts/assert-parity.mjs --results fixtures/results.json
+
+    - name: Upload results artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: corpus-results
+        path: corpus/fixtures/results.json

@@ -1,0 +1,168 @@
+[
+  {
+    "id": "01-archive-size",
+    "check": "archive-size",
+    "big": true,
+    "built": false,
+    "reason": "big fixture; set --big or synthesize at runtime"
+  },
+  {
+    "id": "02-link-entry",
+    "check": "link-entry",
+    "positive": false,
+    "file": "02-link-entry.tgz",
+    "bytes": 331,
+    "built": true
+  },
+  {
+    "id": "03-path-traversal",
+    "check": "path-traversal",
+    "positive": false,
+    "file": "03-path-traversal.tgz",
+    "bytes": 330,
+    "built": true
+  },
+  {
+    "id": "04-uncompressed-size",
+    "check": "uncompressed-size",
+    "big": true,
+    "built": false,
+    "reason": "big fixture; set --big or synthesize at runtime"
+  },
+  {
+    "id": "05-compression-ratio",
+    "check": "compression-ratio",
+    "positive": false,
+    "file": "05-compression-ratio.tgz",
+    "bytes": 1362,
+    "built": true
+  },
+  {
+    "id": "06-missing-manifest",
+    "check": "missing-manifest",
+    "positive": false,
+    "file": "06-missing-manifest.tgz",
+    "bytes": 202,
+    "built": true
+  },
+  {
+    "id": "07-bad-version",
+    "check": "bad-version",
+    "positive": false,
+    "file": "07-bad-version.tgz",
+    "bytes": 286,
+    "built": true
+  },
+  {
+    "id": "08-wrong-type",
+    "check": "wrong-type",
+    "positive": false,
+    "file": "08-wrong-type.tgz",
+    "bytes": 285,
+    "built": true
+  },
+  {
+    "id": "09-bad-manifest-json",
+    "check": "manifest-schema",
+    "positive": false,
+    "file": "09-bad-manifest-json.tgz",
+    "bytes": 209,
+    "built": true
+  },
+  {
+    "id": "10-bad-id-length",
+    "check": "bad-id",
+    "positive": false,
+    "file": "10-bad-id-length.tgz",
+    "bytes": 280,
+    "built": true
+  },
+  {
+    "id": "10b-bad-id-pattern",
+    "check": "bad-id",
+    "positive": false,
+    "file": "10b-bad-id-pattern.tgz",
+    "bytes": 298,
+    "built": true
+  },
+  {
+    "id": "11-proxies-not-yaml",
+    "check": "proxies-yaml",
+    "positive": false,
+    "file": "11-proxies-not-yaml.tgz",
+    "bytes": 258,
+    "built": true
+  },
+  {
+    "id": "12-proxies-schema",
+    "check": "proxies-schema",
+    "positive": false,
+    "file": "12-proxies-schema.tgz",
+    "bytes": 269,
+    "built": true
+  },
+  {
+    "id": "13-policies-not-yaml",
+    "check": "policies-yaml",
+    "positive": false,
+    "file": "13-policies-not-yaml.tgz",
+    "bytes": 333,
+    "built": true
+  },
+  {
+    "id": "14-policies-schema",
+    "check": "policies-schema",
+    "positive": false,
+    "file": "14-policies-schema.tgz",
+    "bytes": 319,
+    "built": true
+  },
+  {
+    "id": "15-policy-relative-path",
+    "check": "policy-path",
+    "positive": false,
+    "file": "15-policy-relative-path.tgz",
+    "bytes": 333,
+    "built": true
+  },
+  {
+    "id": "16-policy-interpolation",
+    "check": "policy-interpolation",
+    "positive": false,
+    "file": "16-policy-interpolation.tgz",
+    "bytes": 335,
+    "built": true
+  },
+  {
+    "id": "17-cross-app-ref",
+    "check": "cross-app-ref",
+    "positive": false,
+    "file": "17-cross-app-ref.tgz",
+    "bytes": 337,
+    "built": true
+  },
+  {
+    "id": "18-action-interpolation",
+    "check": "action-interpolation",
+    "positive": false,
+    "file": "18-action-interpolation.tgz",
+    "bytes": 338,
+    "built": true
+  },
+  {
+    "id": "19-action-verb",
+    "check": "action-verb",
+    "positive": false,
+    "file": "19-action-verb.tgz",
+    "bytes": 335,
+    "built": true
+  },
+  {
+    "id": "00-baseline-accept",
+    "check": null,
+    "positive": true,
+    "file": "00-baseline-accept.tgz",
+    "bytes": 383,
+    "built": true
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "name": "app-validation-corpus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Abuse corpus + reusable validation harness for Cribl App Store bundle checks (CRIBL-41931 parity). One malicious fixture per AppInstallValidator throwing check.",
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate-fixtures.mjs",
+    "generate:big": "node scripts/generate-fixtures.mjs --big",
+    "run:staging": "node scripts/run-corpus.mjs --mode staging --manifest fixtures/manifest.json --out fixtures/results.json",
+    "run:local": "node scripts/run-corpus.mjs --mode local --manifest fixtures/manifest.json --out fixtures/results.json",
+    "assert": "node scripts/assert-parity.mjs --results fixtures/results.json",
+    "test": "npm run generate && npm run run:staging && npm run assert"
+  },
+  "dependencies": {
+    "tar-stream": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
