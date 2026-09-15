@@ -1,0 +1,46 @@
+# Reusable workflow: run the app-validation abuse corpus against a target.
+# App repos in the criblapps org call this from their own .github/workflows.
+# via `uses: criblapps/app-validation-corpus/.github/workflows/validate-bundle.yml@v1`.
+#
+# The org-level default workflow in criblapps/.github also calls this, so every
+# repo in the org is covered automatically without a per-repo workflow file.
+name: Validate App Bundle (Abuse Corpus)
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: 'staging (upload to packs-staging extapi) or local'
+        type: string
+        default: 'staging'
+      dispensary-base:
+        description: 'extapi base URL'
+        type: string
+        default: 'https://packs-staging.cribl.io'
+      app-id:
+        description: 'PACK_ID to upload under'
+        type: string
+        default: 'corpus-abuse'
+      big-fixtures:
+        description: 'materialize >100MB / >500MB fixtures'
+        type: boolean
+        default: false
+    secrets:
+      PACKS_API_TOKEN:
+        description: 'staging dispensary PAT (Bearer). Required when mode=staging.'
+        required: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Run abuse corpus
+        uses: criblapps/app-validation-corpus/action@v1
+        with:
+          mode: ${{ inputs.mode }}
+          dispensary-base: ${{ inputs.dispensary-base }}
+          app-id: ${{ inputs.app-id }}
+          packs-api-token: ${{ secrets.PACKS_API_TOKEN }}
+          big-fixtures: ${{ inputs.big-fixtures }}
