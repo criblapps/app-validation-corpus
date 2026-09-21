@@ -15,10 +15,9 @@
 // Run: node scripts/generate-fixtures.mjs [--out fixtures] [--big] [--seed]
 //   --big   materialize the >100MB and >500MB fixtures (skipped by default to keep
 //          the repo small; the harness synthesizes them at runtime instead)
-import { createWriteStream, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { createWriteStream, mkdirSync, writeFileSync, readFileSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
 import { pack as tarPack } from 'tar-stream';
 import { gzipSync } from 'node:zlib';
 
@@ -324,7 +323,7 @@ for (const f of fixtures) {
   }
   const outPath = join(OUT, `${f.id}.tgz`);
   await writeTgz(outPath, f.build());
-  const stat = execSync(`stat -f%z "${outPath}"`).toString().trim();
+  const stat = statSync(outPath).size;
   manifest.push({
     id: f.id,
     check: f.check,
