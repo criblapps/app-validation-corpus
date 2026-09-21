@@ -1,6 +1,6 @@
 # Reusable workflow: run the app-validation abuse corpus against a target.
-# App repos in the criblapps org call this from their own .github/workflows.
-# via `uses: criblapps/app-validation-corpus/.github/workflows/validate-bundle.yml@v1`.
+# App repos in the criblapps org call this from their own .github/workflows
+# via `uses: criblapps/app-validation-corpus/.github/workflows/validate-bundle.yml@v1.2`.
 #
 # The org-level default workflow in criblapps/.github also calls this, so every
 # repo in the org is covered automatically without a per-repo workflow file.
@@ -37,7 +37,7 @@ jobs:
       contents: read
     steps:
       - name: Run abuse corpus
-        uses: criblapps/app-validation-corpus/action@v1
+        uses: criblapps/app-validation-corpus/action@v1.2
         with:
           mode: ${{ inputs.mode }}
           dispensary-base: ${{ inputs.dispensary-base }}
